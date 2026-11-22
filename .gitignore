@@ -1,0 +1,20 @@
+# Flutter / Dart build & cache files
+**/build/
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/pubspec.lock
+
+# Android / Gradle generated files
+**/android/.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+
+# OS & Secrets
+.DS_Store
+Thumbs.db
+**/.env
