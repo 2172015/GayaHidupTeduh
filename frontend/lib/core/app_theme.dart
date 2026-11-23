@@ -27,15 +27,25 @@ class AppTheme {
           fontWeight: FontWeight.w600,
           color: AppColors.forestGreen,
         ),
-        bodyMedium: TextStyle(
+        titleSmall: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: AppColors.forestGreen,
         ),
-        bodySmall: TextStyle(
-          fontSize: 13,
+        bodyLarge: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: AppColors.bodyText,
+        ),
+        bodyMedium: TextStyle(
+          fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: AppColors.forestGreen,
+          color: AppColors.bodyText,
+        ),
+        bodySmall: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: AppColors.bodyText,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(

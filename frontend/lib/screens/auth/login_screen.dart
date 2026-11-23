@@ -31,8 +31,12 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _errorMessage = null;
       });
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => HomeScreen(username: username)),
+      // Navigator.of(context).pushReplacement(
+      //   MaterialPageRoute(builder: (_) => HomeScreen(username: username)),
+      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute<void>(builder: (context) => const HomeScreen()),
       );
     } else {
       setState(() {
