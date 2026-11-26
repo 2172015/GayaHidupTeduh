@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gaya_hidup_teduh/screens/auth/auth_gate_screen.dart';
 
 import 'core/app_theme.dart';
-import 'screens/auth/loading_screen.dart';
 
 void main() {
   runApp(const GayaHidupTeduhApp());
@@ -16,7 +16,7 @@ class GayaHidupTeduhApp extends StatelessWidget {
       title: 'Gaya Hidup Teduh',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const LoadingScreen(),
+      home: const AuthGateScreen(),
     );
   }
 }
