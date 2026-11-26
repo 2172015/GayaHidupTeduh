@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import '../../models/mood_dimension.dart';
 import '../../models/mood_record.dart';
 import '../../services/mood_service.dart';

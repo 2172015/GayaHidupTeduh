@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import '../../models/booking_slot_item.dart';
 import '../../models/counseling_booking.dart';
 import '../../models/counselor.dart';
 import '../../models/payment_method_type.dart';
+import '../../models/voucher.dart';
 import '../../services/counseling_service.dart';
+import '../../services/voucher_service.dart';
 import '../../widgets/common/teduh_bottom_action_bar.dart';
 import '../../widgets/common/teduh_loading_overlay.dart';
 import '../../widgets/inputs/teduh_review_text_field.dart';
@@ -34,6 +36,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   late Map<String, String> _messages;
   bool _isProcessing = false;
 
+  final VoucherService _voucherService = MockVoucherService();
+  Voucher? _appliedVoucher;
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +48,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _messages = Map<String, String>.from(
       widget.existingPendingBooking?.counselorMessages ?? {},
     );
+    _appliedVoucher = _voucherService.getSelectedVoucher();
   }
 
   Map<String, List<BookingSlotItem>> _groupByCounselor(
@@ -151,11 +157,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
+  void _removeAppliedVoucher() {
+    _voucherService.selectVoucherForBooking(null);
+    setState(() => _appliedVoucher = null);
+  }
+
   Future<void> _proceedToPayment() async {
     final items = widget.counselingService.getCartItems();
     if (items.isEmpty) return;
 
     setState(() => _isProcessing = true);
+
+    final subtotal = items.fold<int>(0, (sum, i) => sum + i.fee);
+    final discount = _appliedVoucher?.calculateDiscount(subtotal) ?? 0;
+
+    if (_appliedVoucher != null && discount > 0) {
+      await _voucherService.markVoucherAsUsed(_appliedVoucher!.id);
+    }
 
     final pendingBooking = await widget.counselingService.createPendingBooking(
       userId: widget.userId,
@@ -166,7 +184,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
 
     if (!mounted) return;
-    setState(() => _isProcessing = false);
+    setState(() {
+      _appliedVoucher = null;
+      _isProcessing = false;
+    });
 
     Navigator.push(
       context,
@@ -183,7 +204,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     final items = widget.counselingService.getCartItems();
     final grouped = _groupByCounselor(items);
-    final totalAmount = items.fold<int>(0, (sum, i) => sum + i.fee);
+    final subtotal = items.fold<int>(0, (sum, i) => sum + i.fee);
+    final discount = _appliedVoucher?.calculateDiscount(subtotal) ?? 0;
+    final totalAmount = subtotal - discount;
 
     return TeduhLoadingOverlay(
       isLoading: _isProcessing,
@@ -474,6 +497,69 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         ),
                                       );
                                     }),
+
+                                    // Baris Potongan Voucher
+                                    if (_appliedVoucher != null) ...[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 2,
+                                          bottom: 6,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  Flexible(
+                                                    child: Text(
+                                                      'Voucher (${_appliedVoucher!.code})',
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: 13.5,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: discount > 0
+                                                            ? const Color(
+                                                                0xFF4A7729,
+                                                              )
+                                                            : const Color(
+                                                                0xFF8C9087,
+                                                              ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 6),
+                                                  GestureDetector(
+                                                    onTap:
+                                                        _removeAppliedVoucher,
+                                                    child: const Icon(
+                                                      Icons.close_rounded,
+                                                      size: 16,
+                                                      color: AppColors.errorRed,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Text(
+                                              discount > 0
+                                                  ? '- ${Counselor.formatRupiah(discount)}'
+                                                  : 'Min. ${Counselor.formatRupiah(_appliedVoucher!.minTransaction)}',
+                                              style: TextStyle(
+                                                fontSize: 13.5,
+                                                fontWeight: FontWeight.w600,
+                                                color: discount > 0
+                                                    ? const Color(0xFF4A7729)
+                                                    : const Color(0xFF8C9087),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+
                                     Divider(
                                       height: 20,
                                       color: AppColors.forestGreen.withValues(

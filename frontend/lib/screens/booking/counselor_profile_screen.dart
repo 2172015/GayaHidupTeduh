@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import '../../models/counselor.dart';
 import '../../services/counseling_service.dart';
 import '../payment/checkout_screen.dart';

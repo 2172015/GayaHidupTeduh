@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gaya_hidup_teduh/screens/booking/book_session_date_screen.dart';
 import 'package:gaya_hidup_teduh/screens/counseling/counseling_screen.dart';
+import 'package:gaya_hidup_teduh/screens/profile/profile_screen.dart';
 import 'package:gaya_hidup_teduh/services/counseling_service.dart';
 
 import '../../models/mood_record.dart';
@@ -49,7 +50,7 @@ class AppNavigator {
         toCounseling(context);
         break;
       case 3:
-        // TODO: toProfile(context);
+        toProfile(context);
         break;
     }
   }
@@ -134,6 +135,14 @@ class AppNavigator {
           counselingService: service,
         ),
       ),
+    );
+  }
+
+  static void toProfile(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      _buildTabRoute(ProfileScreen(userId: _currentUserId)),
+      (route) => false,
     );
   }
 

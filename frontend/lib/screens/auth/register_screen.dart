@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import '../../core/utils/form_validator.dart';
 import '../../models/user_model.dart';
 import '../../services/auth_service.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import '../../services/counseling_service.dart';
 import 'counselor_list_screen.dart';
 import 'widgets/booking_calendar_card.dart';

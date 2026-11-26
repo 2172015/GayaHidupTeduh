@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 
 class TeduhConfirmDialog extends StatelessWidget {
   final String title;

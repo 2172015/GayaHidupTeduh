@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import '../../core/navigation/app_navigator.dart';
 import '../../models/diary.dart';
 import '../../services/diary_service.dart';

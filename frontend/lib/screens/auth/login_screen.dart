@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import '../../widgets/common/teduh_loading_overlay.dart';
 import '../../widgets/inputs/teduh_text_field.dart';
 import '../home/home_screen.dart';

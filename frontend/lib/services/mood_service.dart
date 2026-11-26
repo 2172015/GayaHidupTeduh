@@ -9,6 +9,7 @@ abstract class MoodService {
     required Map<MoodDimension, int> scores,
   });
   Future<int> getCurrentStreak(String userId);
+  Future<List<MoodRecord>> getHistory(String userId);
 }
 
 class MockMoodService implements MoodService {
@@ -110,5 +111,13 @@ class MockMoodService implements MoodService {
   @override
   Future<int> getCurrentStreak(String userId) async {
     return _streakDays;
+  }
+
+  @override
+  Future<List<MoodRecord>> getHistory(String userId) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+    final userRecords = _records.where((r) => r.userId == userId).toList()
+      ..sort((a, b) => b.date.compareTo(a.date));
+    return userRecords;
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gaya_hidup_teduh/screens/auth/auth_gate_screen.dart';
+// import 'package:gaya_hidup_teduh/screens/iseng/iseng.dart';
 
-import 'core/app_theme.dart';
+import 'core/theme/app_theme.dart';
 
 void main() {
   runApp(const GayaHidupTeduhApp());
@@ -17,6 +18,7 @@ class GayaHidupTeduhApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       home: const AuthGateScreen(),
+      // home: const Iseng(),
     );
   }
 }
