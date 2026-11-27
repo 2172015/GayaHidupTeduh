@@ -59,7 +59,8 @@ class TeduhScaffold extends StatelessWidget {
   final bool safeAreaTop;
 
   /// Mengaktifkan area aman (*SafeArea*) di sisi bawah layar.
-  /// Otomatis menjadi `false` jika [bottomActionBar] digunakan.
+  /// Default `false` agar konten *scrollable* dapat menggulir penuh hingga tepi bawah
+  /// tanpa terpotong di atas *gesture navigation bar*.
   final bool safeAreaBottom;
 
   const TeduhScaffold({
@@ -75,7 +76,7 @@ class TeduhScaffold extends StatelessWidget {
     this.bottomActionBar,
     this.floatingActionButton,
     this.safeAreaTop = true,
-    this.safeAreaBottom = true,
+    this.safeAreaBottom = false,
   });
 
   PreferredSizeWidget? _buildResolvedAppBar(BuildContext context) {
